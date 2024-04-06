@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blackjack</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+            body{
+                font-family: 'Nunito', sans-serif;
+                color: white;
+                background-color: rgb(30,30,50);
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body class="intro">
+        <div id="left">
+            <h1>Blackjack</h1>
+            <hr>
+            <button id="newgame" onclick="startGame()">New Game</button>
+            <button id="settings" onclick="settings()">Settings</button>
+
+            <h4><a href="mailto:neilpatrao@duck.com">Made by Neil Patrao</a></h4>
+        </div>
+        <div id="right">
+            <img src="cover.png" alt="Decorative image of a game of blackjack on a table">
+        </div>
+        <div id="credits">
+            <a href="mailto:neilpatrao@duck.com">Made by Neil Patrao</a>
+        </div>
+        <script src="./main.js"></script>
+        <script src="./game.js"></script>
+    </body>
+</html>
