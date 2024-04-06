@@ -15,6 +15,7 @@
                 overflow: hidden;
             }
         </style>
+        <link rel="shortcut icon" href="cover.png" type="image/x-icon">
         
         <meta name="title" content="scuffed blackjack">
         <meta property="og:title" content="scuffed blackjack">
@@ -27,14 +28,36 @@
         <div id="left">
             <h1>Blackjack</h1>
             <hr>
-            <button id="newgame" onclick="startGame()">New Game</button>
-            <button id="settings" onclick="settings()">Settings</button>
-
+            <div id="warning">
+                If you have a gambling addiction, <a href="tel:18004262537">call the gambling addiction hotline at 1-800-GAMBLER (426-2537)</a>
+                <br>
+                <br>
+                <button id="acknowledge" onclick="startMusic()">Acknowledge</button>
+            </div>
+            <div id="introActions" class="hidden">
+                <button id="newgame" onclick="startGame()">New Game</button>
+                <button id="settings" onclick="settings()">Settings</button>
+            </div>
             <h4><a href="mailto:neilpatrao@duck.com">Made by Neil Patrao</a></h4>
         </div>
         <div id="right">
             <img src="cover.png" alt="Decorative image of a game of blackjack on a table">
         </div>
+
+        <div id="gameboard" class="hidden">
+            <div id="cards">
+                <div id="player-hand"></div>
+                <div id="dealer-hand"></div>
+                <div id="player-value"></div>
+                <div id="dealer-value"></div>
+            </div>
+            <div id="actions">
+                <button id="hit" onclick="hitMe()">Hit</button>
+                <button id="stand" onclick="stand()">Stand</button>
+                <button id="close" onclick="returnToMenu()" class="hidden">Return to Menu</button>
+            </div>
+        </div>
+
         <div id="credits">
             <a href="mailto:neilpatrao@duck.com">Made by Neil Patrao</a>
         </div>

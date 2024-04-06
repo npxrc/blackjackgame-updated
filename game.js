@@ -1,8 +1,39 @@
-// script.js
+function $(e){return document.getElementById(e)}
 let playerHand = [];
 let dealerHand = [];
 let deck = [];
 let gameStarted = false;
+
+let audio = new Audio('bass-of-ace.mp3')
+function startMusic(){
+	$('introActions').classList.remove('hidden')
+	$('warning').classList.add('hidden')
+	audio.play()
+}
+function fadeOut() {
+	let volume = 1; // Start at maximum volume
+	const fadeOutInterval = setInterval(() => {
+		if (volume > 0.2) {
+			volume -= 0.05;
+			audio.volume = volume;
+		} else {
+			clearInterval(fadeOutInterval);
+			audio.volume = 0.2; // Set the final volume to 20%
+		}
+	}, 50); // Adjust the volume every 50 milliseconds
+} 
+function fadeIn() {
+	let volume = 0.2; // Start at 20% volume
+	const fadeInInterval = setInterval(() => {
+		if (volume < 0.8) {
+			volume += 0.05;
+			audio.volume = volume;
+		} else {
+			clearInterval(fadeInInterval);
+			audio.volume = 0.8; // Set the final volume to 80%
+		}
+	}, 50); // Adjust the volume every 50 milliseconds
+}
 
 // Create a deck of cards
 function createDeck() {
@@ -47,31 +78,30 @@ function calculateHandValue(hand) {
 }
 
 // Start a new game
-let startClicked=false;
+
 function startGame() {
-	alert('i havent wrote the code for the game yet idiot')
-	startClicked=true;
-	return;
+	document.body.classList.remove('intro')
+	document.body.classList.add('game')
 	gameStarted = true;
 	playerHand = [getRandomCard(), getRandomCard()];
 	dealerHand = [getRandomCard(), getRandomCard()];
 
 	// Update the UI with the initial cards
-	updateUI();
+	setTimeout(() => {
+		updateUI();
+	}, 500);
+	fadeOut()
 }
 function settings(){
-	if (startClicked){
-		alert('you foolish mortal, you think that if theres no game that there could possibly be settings???')
-		return;
-	}
 	alert('i havent written code for the game yet')
 	return;
 }
 
 // Update the game UI
 function updateUI() {
+	$('gameboard').classList.remove('hidden')
 	// Update player hand
-	const playerHandElement = document.getElementById('player-hand');
+	const playerHandElement = $('player-hand');
 	playerHandElement.innerHTML = '';
 	for (let card of playerHand) {
 		const cardElement = document.createElement('div');
@@ -81,7 +111,7 @@ function updateUI() {
 	}
 
 	// Update dealer hand
-	const dealerHandElement = document.getElementById('dealer-hand');
+	const dealerHandElement = $('dealer-hand');
 	dealerHandElement.innerHTML = '';
 	for (let i = 0; i < dealerHand.length; i++) {
 		const cardElement = document.createElement('div');
@@ -95,10 +125,27 @@ function updateUI() {
 	}
 
 	// Update hand values
-	const playerValueElement = document.getElementById('player-value');
-	const dealerValueElement = document.getElementById('dealer-value');
+	const playerValueElement = $('player-value');
+	const dealerValueElement = $('dealer-value');
 	playerValueElement.textContent = `Player Value: ${calculateHandValue(playerHand)}`;
 	dealerValueElement.textContent = `Dealer Value: ${gameStarted ? '?' : calculateHandValue(dealerHand)}`;
+	if (gameStarted) {
+		$('hit').classList.remove('hidden')
+		$('stand').classList.remove('hidden')
+		$('close').classList.add('hidden')
+	} else {
+		$('hit').classList.add('hidden')
+		$('stand').classList.add('hidden')
+		$('close').classList.remove('hidden')
+	}
+}
+
+function returnToMenu(){
+	document.body.classList.add('intro')
+	document.body.classList.remove('game')
+	$('gameboard').classList.add('hidden')
+	gameStarted = false;
+	fadeIn()
 }
 
 // Handle player actions
@@ -111,6 +158,7 @@ function hitMe() {
 	if (playerValue > 21) {
 		alert('Bust! Dealer wins.');
 		gameStarted = false;
+		updateUI()
 	}
 }
 
@@ -118,8 +166,8 @@ function stand() {
 	if (!gameStarted) return;
 	gameStarted = false;
 
-	const playerValue = calculateHandValue(playerHand);
-	const dealerValue = calculateHandValue(dealerHand);
+	let playerValue = calculateHandValue(playerHand);
+	let dealerValue = calculateHandValue(dealerHand);
 
 	// Dealer draws cards until their hand value is at least 17
 	while (dealerValue < 17) {
